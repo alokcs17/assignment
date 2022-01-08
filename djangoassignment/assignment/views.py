@@ -14,7 +14,7 @@ from assignment.filters import UserFilter, MovieRatingFilter
 
 def login_user(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('dashboard/home/')
+        return HttpResponseRedirect('home/')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -24,7 +24,7 @@ def login_user(request):
                 if user.is_active:
                     with transaction.atomic():
                         login(request, user)
-                        return HttpResponseRedirect('dashboard/home/')
+                        return HttpResponseRedirect('home/')
                 return HttpResponse('Account is not active at the moment. Please contact admin.')
             else:
                 messages.info(request, 'Username or Password is Incorrect')
