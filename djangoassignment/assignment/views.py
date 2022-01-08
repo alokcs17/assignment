@@ -1,6 +1,6 @@
 import json
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Count, Avg
@@ -14,7 +14,7 @@ from assignment.filters import UserFilter, MovieRatingFilter
 
 def login_user(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect('home/')
+        return HttpResponseRedirect('dashboard/home/')
     else:
         if request.method == 'POST':
             username = request.POST.get('username')
@@ -24,11 +24,17 @@ def login_user(request):
                 if user.is_active:
                     with transaction.atomic():
                         login(request, user)
-                        return HttpResponseRedirect('home/')
+                        return HttpResponseRedirect('dashboard/home/')
                 return HttpResponse('Account is not active at the moment. Please contact admin.')
             else:
                 messages.info(request, 'Username or Password is Incorrect')
         return render(request, 'assignment/login.html', {})
+
+
+# Logout code html Page Button.
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect('/')
 
 
 @validate_permissions(login_required(login_url='login'), dashboard_admin_request)
