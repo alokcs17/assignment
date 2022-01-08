@@ -1,0 +1,99 @@
+{% extends 'assignment/main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br><br><br>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css"/>
+
+                <div class="panel-group" id="accordion" style="display: None;">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#collapse1">Change Query
+                                    Filter</a>
+                            </h4>
+                        </div>
+                        <div class="panel-collapse collapse in" id="collapse1">
+                            <div class="panel-body" style="background: #44D5BF;">
+                                <div class="row" style="background: #44D5BF;">
+                                    <div class="col" style="background: #44D5BF;">
+                                        <div class="card card-body other" style="background: #44D5BF;">
+                                            <form method="get">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        {{myFilter.form.user_id|as_crispy_field}}
+                                                        </div>
+                                                    <div class="col-md-3">
+                                                        {{myFilter.form.phone|as_crispy_field}}
+                                                        </div>
+
+                                                </div>
+                                                <button class="btn btn-primary" type="submit"> Apply Filter</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<br>
+<div class="row">
+    <div class="col-lg-12">
+       <div class="panel panel-primary">
+           <div class="panel-heading">Users || {{users|length}}
+               <button onclick="return apply_ticket_filter()" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-filter"></span> Use Filter</button>
+           </div>
+           <div class="panel-body">
+               <div class="table-responsive">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="card card-body">
+                               <table class="table table-sm" id="abcd">
+                                   <thead>
+                                     <tr id="ab">
+                                         <th>User Id</th>
+                                         <th>Name</th>
+                                         <th>Phone Number</th>
+                                         <th>Email</th>
+                                     </tr>
+                                   </thead>
+                                   <tbody>
+                                   {% for i in users %}
+                                     <tr>
+                                         <td style="width: 15%;">{{i.user_id}}</td>
+                                         <td style="width: 15%;">{{i.user_name}}</td>
+                                         <td style="width: 15%;">{{i.phone}}</td>
+                                         <td style="width: 15%;">{{i.email}}</td>
+                                     </tr>
+                                   {% endfor %}
+                                   </tbody>
+                               </table>
+
+                           </div>
+
+                       </div>
+
+                   </div>
+               </div>
+
+           </div>
+
+       </div>
+    </div>
+
+</div>
+
+<script>
+    function apply_ticket_filter() {
+  var x = document.getElementById("accordion");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+{% endblock %}
